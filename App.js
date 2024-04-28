@@ -1,11 +1,15 @@
 import React from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import {StatusBar, StyleSheet, View} from 'react-native';
+import InputContainer from './src/components/InputContainer';
 
 function App() {
   return (
-    <View style={styles.container}>
-      <Text>getting started</Text>
-    </View>
+    <>
+      <StatusBar backgroundColor="transparent" />
+      <View style={styles.container}>
+        <InputContainer />
+      </View>
+    </>
   );
 }
 
@@ -14,7 +18,7 @@ export default App;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center'
+    // alignItems: 'center',
+    // justifyContent: 'center'
   }
 })
