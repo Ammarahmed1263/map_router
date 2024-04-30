@@ -10,8 +10,7 @@ function InputContainer({style, colors}) {
         <Icon name="radio-button-on-outline" color={colors.text} size={25} />
         <AutocompleteSearch placeholder="Your place" colors={colors} />
       </View>
-      <View
-        style={styles.separator}>
+      <View style={styles.separator}>
         <EllipsisDots count={4} dotSize={13} color={colors.text} />
         <View
           style={{...styles.horizontalLine, borderBottomColor: colors.text}}
@@ -41,7 +40,7 @@ const styles = StyleSheet.create({
   inputContainer: {
     flex: 2,
     alignItems: 'center',
-    flexDirection: 'row'
+    flexDirection: 'row',
   },
   separator: {
     flex: 0.5,
