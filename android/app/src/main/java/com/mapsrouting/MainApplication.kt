@@ -1,4 +1,4 @@
-package com.maprouter
+package com.mapsrouting
 
 import android.app.Application
 import com.facebook.react.PackageList

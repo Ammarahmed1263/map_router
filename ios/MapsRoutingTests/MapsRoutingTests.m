@@ -7,11 +7,11 @@
 #define TIMEOUT_SECONDS 600
 #define TEXT_TO_LOOK_FOR @"Welcome to React"
 
-@interface MapRouterTests : XCTestCase
+@interface MapsRoutingTests : XCTestCase
 
 @end
 
-@implementation MapRouterTests
+@implementation MapsRoutingTests
 
 - (BOOL)findSubviewInView:(UIView *)view matching:(BOOL (^)(UIView *view))test
 {
