@@ -22,7 +22,6 @@ buildscript {
 
 allprojects {
     repositories {
-        // ...other repos
         maven {
             url 'https://api.mapbox.com/downloads/v2/releases/maven'
             authentication {
@@ -33,7 +32,6 @@ allprojects {
                 password = 'sk.eyJ1IjoiYW1tYXIwMDEiLCJhIjoiY2x2bDNsbTRnMXk3aTJzbnowejc2dDkweSJ9.DJ9unZcivkAQ8kiGzS1bMA'
             }
         }
-        // ...even more repos?
     }
 }
 
