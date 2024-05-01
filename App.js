@@ -29,12 +29,6 @@ function App() {
   const theme = useColorScheme();
   const colors = COLORS[theme];
 
-  /* when start, end cleared route persist
-  * current location navigate
-  * clean code and git commits (y)
-  * light and dark mode switch
-  * no route location default to nothing (y) 
-  */
   const getUserLocation = () => {
     Geolocation.getCurrentPosition(
       position => {
