@@ -39,8 +39,6 @@ function App() {
     Geolocation.getCurrentPosition(
       position => {
         const {latitude, longitude} = position.coords;
-        console.log('User location:', latitude, longitude);
-        // Use the coordinates as needed
         setTimeout(() => {
           setCurrentLocation([longitude, latitude]);
         }, 2000);
@@ -70,7 +68,7 @@ function App() {
           getUserLocation();
           // Proceed with location-related functionality
         } else {
-          console.log('Location permission denied');
+          console.error('Location permission denied');
           // Handle denied permission
         }
       } catch (err) {
@@ -82,7 +80,7 @@ function App() {
   useEffect(() => {
     (async () => {
       try {
-        if (startCoords.length === 0 && endCoords.length === 0) {
+        if (startCoords.length === 0 || endCoords.length === 0) {
           setRouteCoordinates([]);
           return;
         }
@@ -90,12 +88,11 @@ function App() {
           return;
         }
         
-        let response = await fetch(`https://api.mapbox.com/directions/v5/mapbox/driving/${startCoords[0] + '%2C' + startCoords[1] + '%3B' + endCoords[0] + '%2C' + endCoords[1]}?geometries=geojson&access_token=${ACCESS_TOKEN}`)
+        let response = await fetch(`https://api.mapbox.com/directions/v5/mapbox/driving-traffic/${startCoords[0] + '%2C' + startCoords[1] + '%3B' + endCoords[0] + '%2C' + endCoords[1]}?geometries=geojson&access_token=${ACCESS_TOKEN}`)
         response = await response.json();
-        setDistance(response.routes.distance);
         setRouteCoordinates(response.routes[0].geometry.coordinates);
       } catch (error) {
-        console.log("failed to find route: ", error);
+        console.error("failed to find route: ", error);
       }
 
     })()
