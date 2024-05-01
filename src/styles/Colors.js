@@ -6,7 +6,7 @@ const COLORS = {
     overlay: '#4e4c4c'
   },
   light: {
-    background: '#f4f2ec',
+    background: '#f9f9f5',
     text: '##2f2e2e',
     textFade: '#9e9999',
     overlay: '#dedbdb'
