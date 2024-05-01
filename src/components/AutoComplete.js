@@ -1,11 +1,12 @@
+import {View, TextInput, Text, FlatList, TouchableHighlight, StyleSheet} from 'react-native';
 import {useState} from 'react';
-import {View, TextInput, Text, FlatList, TouchableHighlight} from 'react-native';
-import {MAPBOX_ACCESS_TOKEN} from '@env';
+import Icon from 'react-native-vector-icons/Ionicons';
+import {ACCESS_TOKEN} from '@env';
 
-const AutocompleteSearch = ({placeholder, colors}) => {
-  const [query, setQuery] = useState('');
+const AutocompleteSearch = ({placeholder, setCoords, colors}) => {
   const [suggestions, setSuggestions] = useState([]);
-  // const [loading, setLoading] = useState(false);
+  const [query, setQuery] = useState('');
+  const [loading, setLoading] = useState(false);
 
   const handleChangeText = text => {
     setQuery(text);
@@ -17,55 +18,61 @@ const AutocompleteSearch = ({placeholder, colors}) => {
   };
 
   const fetchSuggestions = async text => {
-    // setLoading(true);
+    setLoading(true);
 
     try {
       const response = await fetch(
-        `https://api.mapbox.com/geocoding/v5/mapbox.places/${text}.json?access_token=${MAPBOX_ACCESS_TOKEN}`,
+        `https://api.mapbox.com/geocoding/v5/mapbox.places/${text}.json?access_token=${ACCESS_TOKEN}`,
       );
       const data = await response.json();
-
-      const newSuggestions = data.features.map(feature => feature.place_name);
+      const newSuggestions = data.features.map(feature => ({name: feature.place_name, center: feature.center}));
       setSuggestions(newSuggestions);
     } catch (error) {
       console.error('Error fetching suggestions:', error);
       setSuggestions([]);
+      } finally {
+      setLoading(false);
     }
-      // } finally {
-    //   setLoading(false);
-    // }
   };
 
   const handleSelectLocation = location => {
-    setQuery(location);
+    setCoords(location.center);
+    setQuery(location.name);
     setSuggestions([]);
   };
 
+  const handleCancle = () => {
+    setQuery('');
+    setCoords([]);
+    setSuggestions([]);
+  }
+
   return (
-    <View style={{flex: 1, marginLeft: 3}}>
-      <View>
+    <View style={styles.outerContainer}>
+      <View style={styles.inputContainer}>
         <TextInput
           placeholder={placeholder}
           value={query}
           onChangeText={handleChangeText}
           placeholderTextColor={colors.textFade}
-          style={{color: colors.text, fontSize: 18}}
+          style={{color: colors.text, flex: 1, fontSize: 20}}
         />
-        {/* {loading && <Text>Loading...</Text>} */}
+        {loading && <Text style={{fontSize: 15}}>Loading...</Text>}
+        <Icon.Button name="close" backgroundColor='transparent' underlayColor='transparent' color={colors.textFade} size={25} onPress={handleCancle}/>
       </View>
       {suggestions.length > 0 ? (
         <FlatList
-          style={{position:'absolute',zIndex: 3, top: 35, width: '100%', backgroundColor: colors.background, borderRadius: 12}}
+          style={{...styles.flatList, backgroundColor: colors.background}}
           data={suggestions}
           renderItem={({item}) => (
             <TouchableHighlight
               underlayColor={colors.overlay}
-              style={{paddingVertical: 4, paddingHorizontal: 12}}
+              style={styles.button}
               onPress={() => handleSelectLocation(item)}>
-              <Text style={{fontSize: 16}}>{item}</Text>
+              <Text style={{fontSize: 16}}>{item.name}</Text>
             </TouchableHighlight>
           )}
-          keyExtractor={(item, index) => index.toString()}
+          keyExtractor={(_, index) => index.toString()}
         />
       ) : (
         ''
@@ -75,3 +82,25 @@ const AutocompleteSearch = ({placeholder, colors}) => {
 };
 
 export default AutocompleteSearch;
+
+const styles = StyleSheet.create({
+  outerContainer: {
+    flex: 1,
+    marginLeft: 3
+  },
+  inputContainer: {
+    flexDirection: 'row',
+    alignItems: 'center'
+  },
+  flatList: {
+    position:'absolute',
+    zIndex: 3,
+    top: 35,
+    width: '100%',
+    borderRadius: 12
+  },
+  button: {
+    paddingVertical: 4,
+    paddingHorizontal: 12
+  }
+})
