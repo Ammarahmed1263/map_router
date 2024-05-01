@@ -1,14 +1,14 @@
 import {View, StyleSheet, StatusBar, Text} from 'react-native';
-import Icon from 'react-native-vector-icons/Ionicons';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import EllipsisDots from './EllipsisDots';
 import AutocompleteSearch from './AutoComplete';
 
-function InputContainer({style, colors}) {
+function InputContainer({style, colors, setStartCoords, setEndCoords}) {
   return (
     <View style={[styles.container, style]}>
       <View style={styles.inputContainer}>
-        <Icon name="radio-button-on-outline" color={colors.text} size={25} />
-        <AutocompleteSearch placeholder="Your place" colors={colors} />
+        <Icon name="home-search" color={colors.text} size={25} />
+        <AutocompleteSearch placeholder="Your place" colors={colors} setCoords={setStartCoords} />
       </View>
       <View style={styles.separator}>
         <EllipsisDots count={4} dotSize={13} color={colors.text} />
@@ -17,8 +17,8 @@ function InputContainer({style, colors}) {
         />
       </View>
       <View style={styles.inputContainer}>
-        <Icon name="location-outline" color={colors.text} size={25} />
-        <AutocompleteSearch placeholder="Your destination" colors={colors} />
+        <Icon name="map-marker-radius-outline" color={colors.text} size={25} />
+        <AutocompleteSearch placeholder="Your destination" colors={colors} setCoords={setEndCoords}/>
       </View>
     </View>
   );
